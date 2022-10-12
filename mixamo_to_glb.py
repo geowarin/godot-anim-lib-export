@@ -3,6 +3,9 @@ import glob
 import bpy
 from bpy.types import Action
 
+character_file = os.environ["GDLIB_CHARACTER_FILE"]
+animations_dir = os.environ["GDLIB_ANIMATIONS_DIR"]
+output_file = os.environ["GDLIB_OUTPUT_FILE"]
 
 def get_selected_anim_data():
     for obj in bpy.context.selected_objects:
@@ -10,25 +13,10 @@ def get_selected_anim_data():
             return obj.animation_data
     return None
 
-
-def create_collection(name):
-    collection = bpy.data.collections.new(name)
-    bpy.context.scene.collection.children.link(collection)
-    return collection
-
-
-def import_fbx(filepath, collection):
-    bpy.ops.import_scene.fbx(filepath=filepath)
-    for obj in bpy.context.selected_objects:
-        collection.objects.link(obj)
-        bpy.context.scene.collection.objects.unlink(obj)
-
-
 for (key, collection) in bpy.data.collections.items():
     bpy.data.collections.remove(collection)
 
-collection = create_collection("Model")
-import_fbx("/home/geo/Documents/Game assets/Y Bot.fbx", collection)
+bpy.ops.import_scene.fbx(filepath=character_file)
 
 target_anim_data = get_selected_anim_data()
 action: Action = target_anim_data.action
@@ -38,7 +26,7 @@ if action is not None:
     track.name = "T-Pose"
     target_anim_data.action = None
 
-animation_files = glob.glob("/home/geo/Documents/Game assets/anims1/*.fbx")
+animation_files = glob.glob(animations_dir + "/*.fbx")
 for file in animation_files:
     head, tail = os.path.split(file)
     basename, ext = os.path.splitext(tail)
@@ -53,6 +41,6 @@ for file in animation_files:
     bpy.ops.object.delete()
 
 bpy.ops.export_scene.gltf(
-    filepath="anims.glb",
+    filepath=output_file,
     export_materials="PLACEHOLDER"
 )
