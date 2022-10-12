@@ -12,8 +12,8 @@ You must have the following binaries in your path.
 ## Usage
 
 ```shell
-git clone godot-lib-export
-alias gdlib="/path/to/godot-lib-export/gd_make_lib.sh /path/to/Ybot.fbx"
+git clone https://github.com/geowarin/godot-anim-lib-export.git
+alias gdlib="/path/to/godot-anim-lib-export/gd_make_lib.sh /path/to/Ybot.fbx"
 gdlib "/my/animation/dir" "myLibrary.res"
 ```
 
