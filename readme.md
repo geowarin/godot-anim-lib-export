@@ -1,4 +1,4 @@
-# Godot make animation library from mixamo
+# Make a Godot animation library from mixamo
 
 Convert a set of mixamo animations to an animation library usable in godot 4. 
 
