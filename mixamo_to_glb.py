@@ -3,9 +3,9 @@ import glob
 import bpy
 from bpy.types import Action
 
-character_file = os.environ["GDLIB_CHARACTER_FILE"]
-animations_dir = os.environ["GDLIB_ANIMATIONS_DIR"]
-output_file = os.environ["GDLIB_OUTPUT_FILE"]
+character_file = os.path.abspath(os.environ["GDLIB_CHARACTER_FILE"].strip('"'))
+animations_dir = os.path.abspath(os.environ["GDLIB_ANIMATIONS_DIR"].strip('"'))
+output_file = os.path.abspath(os.environ["GDLIB_OUTPUT_FILE"].strip('"'))
 
 def get_selected_anim_data():
     for obj in bpy.context.selected_objects:
@@ -26,7 +26,8 @@ if action is not None:
     track.name = "T-Pose"
     target_anim_data.action = None
 
-animation_files = glob.glob(animations_dir + "/*.fbx")
+animation_files_pattern = os.path.join(animations_dir, "*.fbx")
+animation_files = glob.glob(animation_files_pattern)
 for file in animation_files:
     head, tail = os.path.split(file)
     basename, ext = os.path.splitext(tail)
